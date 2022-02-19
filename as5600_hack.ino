@@ -20,7 +20,7 @@ void setup() {
   Serial.begin(115200); //start serial - tip: don't use serial if you don't need it (speed considerations)
   Wire.begin(); //start i2C  
   Wire.setClock(800000L); //fast clock
-  Serial.println("clockspeedset");
+  //Serial.println("clockspeedset");
   checkMagnetPresence(); //check the magnet (blocks until magnet is found)
   Serial.println("check magnent done");
   ReadRawAngle(); //make a reading so the degAngle gets updated
@@ -44,10 +44,13 @@ void checkMagnetPresence()
     magnetStatus = 0; //reset reading
 
     Wire.beginTransmission(0x36); //connect to the sensor
+    //Serial.println("transmission begun");
     Wire.write(0x0B); //figure 21 - register map: Status: MD ML MH
+    //Serial.println("transmission begun");
     Wire.endTransmission(); //end transmission
+    //Serial.println("transmission sent");
     Wire.requestFrom(0x36, 1); //request from the sensor
-
+    Serial.println("request sent");
     while(Wire.available() == 0); //wait until it becomes available 
     magnetStatus = Wire.read(); //Reading the data after the request
 
